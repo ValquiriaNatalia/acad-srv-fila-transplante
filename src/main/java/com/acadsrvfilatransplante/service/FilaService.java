@@ -3,13 +3,21 @@ package com.acadsrvfilatransplante.service;
 import com.acadsrvfilatransplante.DTO.RequestDTO;
 import com.acadsrvfilatransplante.DTO.ResponseDTO;
 import com.acadsrvfilatransplante.model.FilaTransplante;
+import com.acadsrvfilatransplante.repository.FilaRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@Service
 public class FilaService {
     private FilaTransplante transplante;
+    private FilaRepository repository;
+
+    public FilaService(FilaRepository repository) {
+        this.repository = repository;
+    }
 
     public ResponseDTO adicionarFila(RequestDTO dto){
         this.transplante = new FilaTransplante();
@@ -20,6 +28,8 @@ public class FilaService {
         this.transplante.setTelefone(dto.telefone);
         this.transplante.setOrgao(dto.orgao);
         this.transplante.setData(gerarData());
+
+        repository.save(transplante);
 
         ResponseDTO resposta = new ResponseDTO();
         resposta.id = this.transplante.getId();

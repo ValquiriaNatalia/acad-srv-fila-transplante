@@ -1,6 +1,11 @@
 package com.acadsrvfilatransplante.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "fila_transplante")
 public class FilaTransplante {
+    @Id
     private String id;
     private String nome;
     private String cpf;

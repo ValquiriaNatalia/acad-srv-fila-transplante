@@ -10,10 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/fila-transplante")
 public class FilaController {
 
+    private final FilaService filaService;
+
+    public FilaController(FilaService filaService) {
+        this.filaService = filaService;
+    }
+
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO adicionar(@RequestBody RequestDTO request){
-        FilaService servico = new FilaService();
-        return servico.adicionarFila(request);
+    public ResponseDTO adicionar(@RequestBody RequestDTO request) {
+        return filaService.adicionarFila(request);
     }
 }

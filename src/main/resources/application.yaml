@@ -1,3 +1,6 @@
 spring:
   application:
     name: acad-srv-fila-transplante
+
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/acad-srv-fila-transplante}
