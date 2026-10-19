@@ -1,6 +1,7 @@
 spring:
   application:
     name: acad-srv-fila-transplante
-
+  server:
+    port: ${PORT:8080}
   mongodb:
     uri: ${MONGODB_URI:mongodb://localhost:27017/acad-srv-fila-transplante}
