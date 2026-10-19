@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import java.util.List;
+
 
 @Service
 public class FilaService {
@@ -17,8 +19,11 @@ public class FilaService {
 
     public FilaService(FilaRepository repository) {
         this.repository = repository;
-    }
 
+    }
+    public List<FilaTransplante> listarTodos() {
+        return repository.findAll();
+    }
     public ResponseDTO adicionarFila(RequestDTO dto){
         this.transplante = new FilaTransplante();
 
