@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.acadsrvfilatransplante.model.FilaTransplante;
+import com.acadsrvfilatransplante.DTO.StatusRequestDTO;
+import com.acadsrvfilatransplante.DTO.StatusResponseDTO;
 @RestController
 @RequestMapping("/fila-transplante")
 public class FilaController {
@@ -27,4 +29,13 @@ public class FilaController {
     public List<FilaTransplante> listarTodos() {
         return filaService.listarTodos();
     }
+
+    @PatchMapping("/{id}/status")
+    public StatusResponseDTO atualizarStatus(
+            @PathVariable String id,
+            @RequestBody StatusRequestDTO request
+    ) {
+        return filaService.atualizarStatus(id, request);
+    }
+
 }
