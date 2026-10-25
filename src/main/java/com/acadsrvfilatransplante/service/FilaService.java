@@ -21,8 +21,7 @@ import java.util.List;
 
 @Service
 public class FilaService {
-    private FilaTransplante transplante;
-    private FilaRepository repository;
+    private final FilaRepository repository;
     private final MongoTemplate mongoTemplate;
 
     public FilaService(FilaRepository repository, MongoTemplate mongoTemplate) {
@@ -35,21 +34,21 @@ public class FilaService {
     }
 
     public ResponseDTO adicionarFila(RequestDTO dto) {
-        this.transplante = new FilaTransplante();
+        FilaTransplante transplante = new FilaTransplante();
 
-        this.transplante.setId(gerarId());
-        this.transplante.setNome(dto.nome);
-        this.transplante.setCpf(dto.cpf);
-        this.transplante.setTelefone(dto.telefone);
-        this.transplante.setOrgao(dto.orgao);
-        this.transplante.setData(gerarData());
-        this.transplante.setPosicao(gerarPosicao());
-        this.transplante.setStatus(StatusFila.PENDENTE);
+        transplante.setId(gerarId());
+        transplante.setNome(dto.nome);
+        transplante.setCpf(dto.cpf);
+        transplante.setTelefone(dto.telefone);
+        transplante.setOrgao(dto.orgao);
+        transplante.setData(gerarData());
+        transplante.setPosicao(gerarPosicao());
+        transplante.setStatus(StatusFila.PENDENTE);
 
         repository.save(transplante);
 
         ResponseDTO resposta = new ResponseDTO();
-        resposta.id = this.transplante.getId();
+        resposta.id = transplante.getId();
         resposta.messagem = "Criado com sucesso";
         return resposta;
     }
@@ -72,7 +71,11 @@ public class FilaService {
                 FindAndModifyOptions.options().upsert(true).returnNew(true),
                 SequenceCounter.class
         );
-        return contador.getValor();
+
+        if (contador != null) {
+            return contador.getValor();
+        }
+        return 0;
     }
 
 }

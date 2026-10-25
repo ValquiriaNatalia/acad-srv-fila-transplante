@@ -5,9 +5,5 @@ public enum StatusFila {
     CONCLUIDO,
     CANCELADO;
 
-//    public String getStatus() {
-//        return this.name();
-//    }
-
 }
 
