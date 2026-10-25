@@ -12,6 +12,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import com.acadsrvfilatransplante.DTO.StatusRequestDTO;
+import com.acadsrvfilatransplante.DTO.StatusResponseDTO;
+import com.mongodb.client.result.UpdateResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +57,32 @@ public class FilaService {
         resposta.messagem = "Criado com sucesso";
         return resposta;
     }
+
+    public StatusResponseDTO atualizarStatus(String id, StatusRequestDTO dto) {
+        if (dto == null || dto.status == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, " O Status è Obrigatório "
+            );
+        }
+
+        StatusFila status;
+
+        try{
+            status = StatusFila.valueOf(dto.status);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status inválido.");
+        }
+
+        Query query = Query.query(Criteria.where("_id").is(id));
+        Update update = new Update().set("status", status);
+        UpdateResult resultado = mongoTemplate.updateFirst(query, update, FilaTransplante.class);
+
+       if (resultado.getMatchedCount() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado.");
+       }
+
+      return new StatusResponseDTO("Status atualizado com sucesso,", status.name());
+    }
+
 
     private String gerarId() {
         UUID uuid = UUID.randomUUID();
