@@ -12,6 +12,8 @@ public class FilaTransplante {
     private String telefone;
     private String orgao;
     private String data;
+    private StatusFila status;
+    private long posicao;
 
     public String getId() {
         return id;
@@ -60,4 +62,21 @@ public class FilaTransplante {
     public void setData(String data) {
         this.data = data;
     }
+
+    public StatusFila getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusFila status) {
+        this.status = status;
+    }
+
+    public long getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(long posicao) {
+        this.posicao = posicao;
+    }
+
 }
